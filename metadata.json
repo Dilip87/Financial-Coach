@@ -1,0 +1,7 @@
+{
+  "name": "Financial Coach",
+  "description": "A voice-first financial coach agent that uses Gemini Live API to analyze personal financial data and provide advice.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}

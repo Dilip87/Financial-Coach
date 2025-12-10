@@ -1,0 +1,17 @@
+runtime: nodejs20
+
+instance_class: F1
+
+env_variables:
+  # You will set this during deployment or in the Cloud Console
+  # API_KEY: "YOUR_ACTUAL_API_KEY" 
+
+handlers:
+  # Serve all static files from the build output directory
+  - url: /
+    static_files: dist/index.html
+    upload: dist/index.html
+
+  - url: /(.*)
+    static_files: dist/\1
+    upload: dist/(.*)
