@@ -26,15 +26,17 @@ export function arrayBufferToBase64(buffer: ArrayBuffer): string {
 
 /**
  * Converts Float32 audio data (Web Audio API standard) to Int16 PCM (Gemini API requirement).
+ * Enforces Little Endian byte order.
  */
 export function float32ToInt16PCM(float32Data: Float32Array): ArrayBuffer {
-  const int16Data = new Int16Array(float32Data.length);
+  const buffer = new ArrayBuffer(float32Data.length * 2);
+  const view = new DataView(buffer);
   for (let i = 0; i < float32Data.length; i++) {
-    // Clamp values to [-1, 1] before scaling
     const s = Math.max(-1, Math.min(1, float32Data[i]));
-    int16Data[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+    const val = s < 0 ? s * 0x8000 : s * 0x7FFF;
+    view.setInt16(i * 2, val, true); // true = Little Endian
   }
-  return int16Data.buffer;
+  return buffer;
 }
 
 /**
